@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>MENU | LA TABLE ROUGE</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+JP:wght@300;400;500&family=Shippori+Mincho:wght@400;500;600&display=swap">
+<style>
+/* メニューページ固有の追加スタイル */
+.menu-header-page {
+  padding-top: clamp(40px, 6vw, 64px);
+  padding-bottom: clamp(30px, 4vw, 40px);
+  text-align: center;
+  background: var(--wine);
+  border-bottom: 1px solid var(--line-dark);
+}
+.menu-header-page .eyebrow {
+  margin-bottom: 8px;
+}
+.menu-header-page .h2 {
+  font-size: clamp(24px, 3vw, 36px);
+  margin-bottom: 16px;
+}
+.menu-header-page p {
+  font-size: 13px;
+  line-height: 2;
+  color: #ddd0c8;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* カテゴリー切り替えナビゲーション */
+.category-nav {
+  position: sticky;
+  top: 62px;
+  z-index: 10;
+  background: var(--wine-deep);
+  border-bottom: 1px solid rgba(201, 165, 102, 0.2);
+  padding: 12px 0;
+}
+.category-nav ul {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px clamp(16px, 3vw, 32px);
+}
+.category-nav a {
+  font-family: var(--font-latin);
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  color: var(--cream);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  transition: all 0.25s;
+}
+.category-nav a:hover,
+.category-nav a.is-active {
+  border-color: var(--gold);
+  color: var(--gold-soft);
+  background: rgba(201, 165, 102, 0.1);
+}
+
+/* メニューセクションレイアウト */
+.menu-section {
+  padding-top: clamp(40px, 5vw, 60px);
+  padding-bottom: clamp(40px, 5vw, 60px);
+}
+.menu-section:nth-child(even) {
+  background: var(--paper);
+  color: var(--ink);
+}
+.menu-section:nth-child(odd) {
+  background: var(--cream);
+  color: var(--ink);
+}
+
+.sec-head {
+  margin-bottom: clamp(24px, 3vw, 40px);
+  border-bottom: 1px solid var(--line-light);
+  padding-bottom: 16px;
+}
+.sec-head .en {
+  font-family: var(--font-latin);
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  color: var(--rouge);
+  text-transform: uppercase;
+}
+.sec-head h3 {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.2vw, 26px);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+/* メニューグリッド */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(20px, 2.5vw, 32px);
+}
+@media (max-width: 960px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .menu-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* メニューリスト（テキストメインアイテム） */
+.menu-list-text {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 40px;
+}
+@media (max-width: 768px) {
+  .menu-list-text {
+    grid-template-columns: 1fr;
+  }
+}
+
+.menu-item-text {
+  border-bottom: 1px dashed var(--line-light);
+  padding-bottom: 14px;
+}
+.menu-item-text .top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+.menu-item-text h4 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+.menu-item-text .price {
+  font-family: var(--font-display);
+  font-size: 17px;
+  color: var(--rouge);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.menu-item-text .desc {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+  line-height: 1.7;
+}
+
+.note-text {
+  margin-top: 24px;
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<header class="site-header">
+  <div class="inner gutter-x">
+    <a class="logo" href="index.html#top" aria-label="LA TABLE ROUGE トップへ">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true">
+        <circle cx="20" cy="20" r="3"/>
+        <path d="M20 2v10M20 28v10M2 20h10M28 20h10M7.3 7.3l7 7M25.7 25.7l7 7M32.7 7.3l-7 7M14.3 25.7l-7 7"/>
+        <circle cx="20" cy="20" r="9" stroke-opacity=".6"/>
+      </svg>
+      <span><span class="name">LA TABLE ROUGE</span><span class="sub">MEAT DINING &amp; WINE</span></span>
+    </a>
+    <nav class="gnav" aria-label="メインメニュー">
+      <a class="nav-link" href="index.html#top">TOP</a>
+      <a class="nav-link" href="index.html#concept">CONCEPT</a>
+      <a class="nav-link is-current" href="menu.html">MENU</a>
+      <a class="nav-link" href="index.html#scene">SCENE</a>
+      <a class="nav-link" href="index.html#information">INFORMATION</a>
+      <a class="btn btn-line" href="online.html">ご予約はこちら <span class="arrow">→</span></a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ページヘッダー -->
+  <section class="menu-header-page gutter-x">
+    <div class="eyebrow">GRAND MENU</div>
+    <h1 class="h2">メニュー一覧</h1>
+    <p>厳選された肉の旨みを堪能できる自慢のメインディッシュから、ワインを引き立てるアペタイザー、極上のコース料理まで豊富に取り揃えております。</p>
+  </section>
+
+  <!-- カテゴリーナビゲーション -->
+  <nav class="category-nav gutter-x" aria-label="メニューカテゴリー">
+    <ul>
+      <li><a href="#course" class="is-active">COURSE</a></li>
+      <li><a href="#main">MAIN MEAT</a></li>
+      <li><a href="#appetizer">APPETIZER</a></li>
+      <li><a href="#dessert">DESSERT</a></li>
+      <li><a href="#wine">WINE &amp; DRINK</a></li>
+    </ul>
+  </nav>
+
+  <!-- コースメニュー -->
+  <section class="menu-section on-light" id="course">
+    <div class="inner gutter-x">
+      <div class="sec-head">
+        <div class="en">Course Menu</div>
+        <h3>コース料理</h3>
+      </div>
+      <div class="cards menu-grid">
+        <article class="card">
+          <div class="photo"><img src="images/AgedBeefSteak.jpg" alt="LA TABLE ROUGE シグネチャーコース"></div>
+          <div class="body">
+            <h3>ROUGE シグネチャーコース</h3>
+            <div class="en">Signature Course (8 items)</div>
+            <p>当店の魅力を余すことなく味わえる贅沢なフルコース。熟成牛のグリルをメインに前菜からデザートまで堪能いただけます。</p>
+            <div class="price">¥9,800</div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="photo"><img src="images/BeefCheekBraiseaInRedWine.jpg" alt="スペシャルペアリングコース"></div>
+          <div class="body">
+            <h3>ワインペアリングコース</h3>
+            <div class="en">Pairing Course (6 items)</div>
+            <p>シェフ特製の肉料理6品それぞれに、ソムリエが厳選した最適なワインを1杯ずつ合わせたペアリングコースです。</p>
+            <div class="price">¥12,500</div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="photo"><img src="images/HerbCrustedLambRack.jpg" alt="カジュアルディナーコース"></div>
+          <div class="body">
+            <h3>シーズンカジュアルコース</h3>
+            <div class="en">Casual Dinner Course (5 items)</div>
+            <p>旬の食材と自慢の肉料理を手軽にお楽しみいただける、平日限定のスタイリッシュなコースです。</p>
+            <div class="price">¥6,800</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- メインディッシュ -->
+  <section class="menu-section on-light" id="main">
+    <div class="inner gutter-x">
+      <div class="sec-head">
+        <div class="en">Main Dish</div>
+        <h3>メインディッシュ</h3>
+      </div>
+      <div class="cards menu-grid">
+        <article class="card">
+          <div class="photo"><img src="images/AgedBeefSteak.jpg" alt="熟成牛のグリルステーキ"></div>
+          <div class="body">
+            <h3>熟成牛のグリルステーキ</h3>
+            <div class="en">Aged Beef Steak (200g)</div>
+            <p>40日間ドライエイジングさせた黒毛和牛。溢れる肉汁と芳醇な香りをお楽しみください。</p>
+            <div class="price">¥3,800〜</div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="photo"><img src="images/BeefCheekBraiseaInRedWine.jpg" alt="牛ほほ肉の赤ワイン煮込み"></div>
+          <div class="body">
+            <h3>牛ほほ肉の赤ワイン煮込み</h3>
+            <div class="en">Beef Cheek Braised in Red Wine</div>
+            <p>濃厚な赤ワインソースでホロホロになるまで時間をかけて丁寧に煮込んだ至高の一皿。</p>
+            <div class="price">¥2,600</div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="photo"><img src="images/HerbCrustedLambRack.jpg" alt="ハーブ香るラムラック"></div>
+          <div class="body">
+            <h3>ハーブ香るラムラックのロースト</h3>
+            <div class="en">Herb-Crusted Lamb Rack</div>
+            <p>数種類の新鮮なハーブをまとわせて香ばしく焼き上げた、ジューシーで癖のないラム肉。</p>
+            <div class="price">¥3,200</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- アペタイザー＆サイド -->
+  <section class="menu-section on-light" id="appetizer">
+    <div class="inner gutter-x">
+      <div class="sec-head">
+        <div class="en">Appetizer &amp; Side</div>
+        <h3>前菜・サイドメニュー</h3>
+      </div>
+      <div class="menu-list-text">
+        <div class="menu-item-text">
+          <div class="top-row">
+            <h4>厳選シャルキュトリの盛り合わせ</h4>
+            <span class="price">¥1,800</span>
+          </div>
+          <p class="desc">自家製パテ・ド・カンパーニュ、生ハム、サラミなどワインに合う最高のおつまみ。</p>
+        </div>
+        <div class="menu-item-text">
+          <div class="top-row">
+            <h4>黒毛和牛のタルタルステーキ</h4>
+            <span class="price">¥1,600</span>
+          </div>
+          <p class="desc">新鮮な牛肉をスパイスとマスタード、濃厚な卵黄で和えた贅沢な前菜。</p>
+        </div>
+        <div class="menu-item-text">
+          <div class="top-row">
+            <h4>季節野菜のグリル〜アンチョビガーリックソース〜</h4>
+            <span class="price">¥1,200</span>
+          </div>
+          <p class="desc">契約農家から届く新鮮な根菜・野菜を中心に炭火で香ばしく焼き上げました。</p>
+        </div>
+        <div class="menu-item-text">
+          <div class="top-row">
+            <h4>トリュフフレンチフライ</h4>
+            <span class="price">¥980</span>
+          </div>
+          <p class="desc">トリュフオイルと塩、削りたてパルミジャーノを塗した人気のサイドメニュー。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- デザート -->
+  <section class="menu-section on-light" id="dessert">
+    <div class="inner gutter-x">
+      <div class="sec-head">
+        <div class="en">Dessert</div>
+        <h3>デザート</h3>
+      </div>
+      <div class="menu-list-text">
+        <div class="menu-item-text">
+          <div class="top-row">
+            <h4>濃厚クラシックショコラ〜ベリーソース添え〜</h4>
+            <span class="price">¥850</span>
+          </div>
+          <p class="desc">カカオ70%のビターチョコを使用した濃厚なガトーショコラ。</p>
+        </div>
+        <div class="menu-item-text">
+          <div class="top-row">
+            <h4>自家製バニラビーンズのバスクチーズケーキ</h4>
+            <span class="price">¥800</span>
+          </div>
+          <p class="desc">表面は香ばしく焼き上げ、中はとろりとなめらかな食感。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ワイン＆ドリンク -->
+  <section class="menu-section on-light" id="wine">
+    <div class="inner gutter-x">
+      <div class="sec-head">
+        <div class="en">Wine &amp; Beverage</div>
+        <h3>ワイン・ドリンク</h3>
+      </div>
+      <div class="menu-list-text">
+        <div class="menu-item-text">
+          <div class="top-row">
+            <h4>グラスワイン（赤・白・スパークリング）</h4>
+            <span class="price">¥850〜</span>
+          </div>
+          <p class="desc">常時8種類以上のグラスワインをご用意しております。</p>
+        </div>
+        <div class="menu-item-text">
+          <div class="top-row">
+            <h4>ソムリエ厳選ボトルワイン各種</h4>
+            <span class="price">¥5,000〜</span>
+          </div>
+          <p class="desc">フランス、イタリアをはじめ世界各国の肉料理に合うボルドー・ブルゴーニュ赤ワインを中心に揃えています。</p>
+        </div>
+      </div>
+      <p class="note-text">※ 表示価格はすべて税込価格です。<br>※ ディナータイムはコペルト代（席料）としてお一人様 500円をいただいております。</p>
+    </div>
+  </section>
+
+  <!-- 予約への誘導 -->
+  <section class="reserve" id="reservation">
+    <div class="bg"><img src="images/reservation.jpg" alt="" aria-hidden="true"></div>
+    <div class="inner gutter-x">
+      <div class="eyebrow">RESERVATION</div>
+      <h2>特別な日のお食事や、大切な方とのご会食に。</h2>
+      <p>アレルギーや苦手な食材のご要望、お席のご希望も承っております。お気軽にお問い合わせください。</p>
+      <a class="btn btn-fill" href="online.html">ご予約はこちら <span class="arrow">→</span></a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="inner gutter-x">
+    <a class="logo" href="index.html#top" aria-label="LA TABLE ROUGE トップへ">
+      <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true">
+        <circle cx="20" cy="20" r="3"/>
+        <path d="M20 2v10M20 28v10M2 20h10M28 20h10M7.3 7.3l7 7M25.7 25.7l7 7M32.7 7.3l-7 7M14.3 25.7l-7 7"/>
+        <circle cx="20" cy="20" r="9" stroke-opacity=".6"/>
+      </svg>
+      <span><span class="name">LA TABLE ROUGE</span><span class="sub">MEAT DINING &amp; WINE</span></span>
+    </a>
+    <nav class="fnav" aria-label="フッターメニュー">
+      <a href="index.html#top">TOP</a>
+      <a href="index.html#concept">CONCEPT</a>
+      <a href="menu.html">MENU</a>
+      <a href="index.html#scene">SCENE</a>
+      <a href="index.html#information">INFORMATION</a>
+      <a href="online.html">RESERVATION</a>
+    </nav>
+    <div class="sns">
+      <a href="index.html#top" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="index.html#top" aria-label="X">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.9-6.3L5.3 21H2.2l7.2-8.2L1.9 3h6.4l4.4 5.8L17.8 3zm-1.1 16.2h1.7L7.3 4.7H5.5l11.2 14.5z"/></svg>
+      </a>
+    </div>
+    <div class="copy-right">© LA TABLE ROUGE All Rights Reserved.</div>
+  </div>
+</footer>
+
+</div>
+
+</body>
+</html>

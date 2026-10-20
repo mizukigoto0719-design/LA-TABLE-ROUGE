@@ -1,0 +1,949 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>ご予約 | LA TABLE ROUGE - MEAT DINING & WINE</title>
+  
+  <!-- Web fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+JP:wght@300;400;500;600&family=Shippori+Mincho:wght@400;500;600&display=swap">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            wine: {
+              deep: '#2b0b15',
+              DEFAULT: '#430f20',
+              soft: '#5a1a2c',
+              light: '#72233b'
+            },
+            cream: {
+              DEFAULT: '#f3efe9',
+              paper: '#fbf8f4'
+            },
+            gold: {
+              DEFAULT: '#c9a566',
+              soft: '#e0c791',
+              dark: '#a38143'
+            },
+            ink: {
+              DEFAULT: '#2c1d1d',
+              soft: '#5b4a47'
+            },
+            rouge: '#8c1f31'
+          },
+          fontFamily: {
+            display: ['"Shippori Mincho"', '"Noto Serif JP"', 'serif'],
+            body: ['"Noto Serif JP"', '"Shippori Mincho"', 'serif'],
+            latin: ['"Cormorant Garamond"', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Styling for Luxury Aesthetics */
+    :root {
+      color-scheme: dark;
+    }
+    body {
+      background-color: #2b0b15;
+      color: #f3efe9;
+      font-family: 'Noto Serif JP', 'Shippori Mincho', serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #2b0b15;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #430f20;
+      border: 1px solid #c9a566;
+      border-radius: 3px;
+    }
+
+    /* Step indicator styling */
+    .step-badge {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .step-badge.active {
+      background-color: #c9a566;
+      color: #2b0b15;
+      border-color: #c9a566;
+      box-shadow: 0 0 15px rgba(201, 165, 102, 0.4);
+    }
+    .step-badge.completed {
+      background-color: #430f20;
+      color: #e0c791;
+      border-color: #c9a566;
+    }
+
+    /* Radio & Checkbox Card Selection Glow */
+    .selectable-card input:checked + div {
+      border-color: #c9a566;
+      background-color: rgba(67, 15, 32, 0.85);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 10px rgba(201, 165, 102, 0.2);
+    }
+
+    /* Date/Time Slot Button Styles */
+    .time-slot-btn input:checked + span {
+      background-color: #c9a566;
+      color: #2b0b15;
+      font-weight: 600;
+      border-color: #c9a566;
+    }
+    .time-slot-btn input:disabled + span {
+      opacity: 0.35;
+      cursor: not-allowed;
+      border-style: dashed;
+    }
+
+    /* Subtle Glassmorphism */
+    .glass-panel {
+      background: rgba(67, 15, 32, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(201, 165, 102, 0.25);
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-only {
+        display: block !important;
+      }
+      .modal-box {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+        background: white !important;
+        color: black !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-gold selection:text-wine-deep">
+
+  <!-- ================= HEADER ================= -->
+  <header class="sticky top-0 z-30 bg-wine-deep/95 backdrop-blur-md border-b border-gold/20 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center gap-3 text-gold-soft hover:opacity-90 transition-opacity">
+        <svg class="w-8 h-8" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.1">
+          <circle cx="20" cy="20" r="3"/>
+          <path d="M20 2v10M20 28v10M2 20h10M28 20h10M7.3 7.3l7 7M25.7 25.7l7 7M32.7 7.3l-7 7M14.3 25.7l-7 7"/>
+          <circle cx="20" cy="20" r="9" stroke-opacity=".6"/>
+        </svg>
+        <div class="flex flex-col">
+          <span class="font-latin text-xl sm:text-2xl font-medium tracking-widest leading-none">LA TABLE ROUGE</span>
+          <span class="font-latin text-[9px] sm:text-[10px] tracking-[0.25em] text-gold mt-1">MEAT DINING & WINE</span>
+        </div>
+      </a>
+
+      <!-- Back to Top Link -->
+      <a href="index.html" class="flex items-center gap-2 text-xs sm:text-sm font-display tracking-widest text-gold-soft hover:text-gold transition-colors py-2 px-4 rounded border border-gold/30 hover:border-gold/60">
+        <span>←</span>
+        <span>トップページへ戻る</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ================= HERO SECTION ================= -->
+  <section class="relative py-12 lg:py-16 overflow-hidden bg-wine-deep no-print">
+    <!-- Background subtle image overlay -->
+    <div class="absolute inset-0 opacity-15 bg-[url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80')] bg-cover bg-center"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-wine-deep/80 via-wine-deep/95 to-wine-deep"></div>
+
+    <div class="relative max-w-4xl mx-auto px-4 text-center">
+      <p class="font-latin text-xs sm:text-sm tracking-[0.3em] uppercase text-gold mb-3">Online Reservation</p>
+      <h1 class="font-display text-2xl sm:text-4xl text-cream font-medium tracking-wider mb-4 leading-relaxed">
+        肉を味わう、時間を愉しむ。
+      </h1>
+      <p class="font-display text-sm sm:text-base text-gold-soft/90 tracking-widest leading-loose max-w-2xl mx-auto">
+        一皿に込めた、こだわりと情熱。<br class="hidden sm:inline">
+        厳選した肉の旨みを最大限に引き出し、心ほどける上質なひとときをお届けします。
+      </p>
+      <div class="w-12 h-[1px] bg-gold mx-auto my-6"></div>
+      <p class="text-xs text-cream/70 tracking-wider">
+        Webからのご予約は24時間承っております。下記のフォームよりご希望の日時をお選びください。
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= MAIN RESERVATION FORM CONTAINER ================= -->
+  <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 pb-20 no-print">
+
+    <!-- STEP PROGRESS BAR -->
+    <div class="mb-10">
+      <div class="grid grid-cols-4 gap-2 sm:gap-4 max-w-3xl mx-auto text-center">
+        <!-- Step 1 Indicator -->
+        <div class="flex flex-col items-center">
+          <div id="step-badge-1" class="step-badge active w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-gold/40 flex items-center justify-center font-latin font-medium text-sm sm:text-base mb-2">1</div>
+          <span class="text-[10px] sm:text-xs font-display tracking-wider text-gold-soft">日時・人数</span>
+        </div>
+        <!-- Step 2 Indicator -->
+        <div class="flex flex-col items-center">
+          <div id="step-badge-2" class="step-badge w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-gold/20 bg-wine/60 text-cream/50 flex items-center justify-center font-latin font-medium text-sm sm:text-base mb-2">2</div>
+          <span class="text-[10px] sm:text-xs font-display tracking-wider text-cream/50">コース・お席</span>
+        </div>
+        <!-- Step 3 Indicator -->
+        <div class="flex flex-col items-center">
+          <div id="step-badge-3" class="step-badge w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-gold/20 bg-wine/60 text-cream/50 flex items-center justify-center font-latin font-medium text-sm sm:text-base mb-2">3</div>
+          <span class="text-[10px] sm:text-xs font-display tracking-wider text-cream/50">お客様情報</span>
+        </div>
+        <!-- Step 4 Indicator -->
+        <div class="flex flex-col items-center">
+          <div id="step-badge-4" class="step-badge w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-gold/20 bg-wine/60 text-cream/50 flex items-center justify-center font-latin font-medium text-sm sm:text-base mb-2">4</div>
+          <span class="text-[10px] sm:text-xs font-display tracking-wider text-cream/50">確認</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN GRID: FORM CONTENT & LIVE SUMMARY -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+      <!-- LEFT COLUMN: MULTI-STEP FORM (8 COLS) -->
+      <div class="lg:col-span-8">
+        <form id="reservationForm" onsubmit="return false;">
+
+          <!-- ================= STEP 1: DATE, GUESTS & TIME ================= -->
+          <div id="step-1" class="glass-panel p-6 sm:p-8 rounded-lg shadow-2xl">
+            <h2 class="font-display text-xl text-gold-soft mb-6 flex items-center gap-3 border-b border-gold/20 pb-3">
+              <span class="font-latin text-2xl text-gold">01.</span> ご来店日時と人数のご選択
+            </h2>
+
+            <div class="space-y-6">
+              <!-- Guest Count Selection -->
+              <div>
+                <label class="block text-xs font-display tracking-widest text-gold mb-2">ご来店人数 <span class="text-rouge">*</span></label>
+                <div class="grid grid-cols-4 sm:grid-cols-6 gap-2">
+                  <script>
+                    for(let i=1; i<=6; i++) {
+                      document.write(`
+                        <label class="selectable-card cursor-pointer">
+                          <input type="radio" name="guests" value="${i}" ${i===2 ? 'checked' : ''} class="hidden" onchange="updateGuests(${i})">
+                          <div class="p-3 text-center border border-gold/20 rounded bg-wine/30 hover:border-gold/50 transition-all">
+                            <span class="font-latin text-lg text-cream font-medium">${i}</span>
+                            <span class="text-xs text-cream/70 block">名様</span>
+                          </div>
+                        </label>
+                      `);
+                    }
+                  </script>
+                </div>
+                <p class="text-[11px] text-cream/60 mt-2">※7名様以上でのご利用をご希望の場合は、お電話にて直接お問い合わせください。</p>
+              </div>
+
+              <!-- Date Selection -->
+              <div>
+                <label class="block text-xs font-display tracking-widest text-gold mb-2">ご来店日 <span class="text-rouge">*</span></label>
+                <div class="relative">
+                  <input type="date" id="dateInput" class="w-full bg-wine-deep/90 border border-gold/30 rounded p-3 text-cream font-display text-sm focus:outline-none focus:border-gold transition-colors" onchange="handleDateChange(this.value)">
+                </div>
+              </div>
+
+              <!-- Lunch / Dinner Filter & Time Slot Selection -->
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <label class="text-xs font-display tracking-widest text-gold">ご来店時間 <span class="text-rouge">*</span></label>
+                  <div class="flex gap-2">
+                    <button type="button" id="tab-lunch" onclick="switchMealType('lunch')" class="text-xs px-3 py-1 rounded border border-gold/30 text-gold-soft hover:border-gold">ランチ (11:30~)</button>
+                    <button type="button" id="tab-dinner" onclick="switchMealType('dinner')" class="text-xs px-3 py-1 rounded border border-gold bg-gold text-wine-deep font-semibold">ディナー (17:30~)</button>
+                  </div>
+                </div>
+
+                <!-- Live Status Legend -->
+                <div class="flex items-center gap-4 text-xs text-cream/70 mb-3 bg-wine/30 p-2 rounded border border-gold/10">
+                  <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> ○: 空席あり</span>
+                  <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-400"></span> △: 残りわずか</span>
+                  <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-500"></span> ×: 満席</span>
+                </div>
+
+                <!-- Time Slots Grid -->
+                <div id="timeSlotsContainer" class="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                  <!-- JS Dynamically populates time slots -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Next Step Button -->
+            <div class="mt-8 pt-6 border-t border-gold/20 flex justify-end">
+              <button type="button" onclick="goToStep(2)" class="bg-gold hover:bg-gold-soft text-wine-deep font-display font-semibold text-sm py-3 px-8 rounded transition-all duration-300 flex items-center gap-2 shadow-lg">
+                <span>お席・コース選択へ進む</span>
+                <span class="font-latin">→</span>
+              </button>
+            </div>
+          </div>
+
+
+          <!-- ================= STEP 2: COURSE & SEAT SELECTION ================= -->
+          <div id="step-2" class="glass-panel p-6 sm:p-8 rounded-lg shadow-2xl hidden">
+            <h2 class="font-display text-xl text-gold-soft mb-6 flex items-center gap-3 border-b border-gold/20 pb-3">
+              <span class="font-latin text-2xl text-gold">02.</span> コース・お席のご選択
+            </h2>
+
+            <div class="space-y-8">
+              <!-- Course Selection -->
+              <div>
+                <label class="block text-xs font-display tracking-widest text-gold mb-3">お料理コース <span class="text-rouge">*</span></label>
+                
+                <div class="space-y-4">
+                  <!-- Course 1 -->
+                  <label class="selectable-card block cursor-pointer">
+                    <input type="radio" name="course" value="aged_beef" checked class="hidden" onchange="updateCourse('aged_beef', '熟成牛贅沢ディナーコース', 12800)">
+                    <div class="p-4 sm:p-5 border border-gold/20 rounded bg-wine/30 hover:border-gold/50 transition-all relative">
+                      <div class="flex justify-between items-start mb-2">
+                        <div>
+                          <span class="text-xs font-latin text-gold tracking-widest uppercase">Popular Choice</span>
+                          <h3 class="font-display text-base sm:text-lg text-cream font-medium">熟成牛贅沢ディナーコース</h3>
+                        </div>
+                        <div class="text-right">
+                          <span class="font-latin text-xl text-gold font-medium">¥12,800</span>
+                          <span class="text-[10px] text-cream/60 block">/ 1名様 (税込)</span>
+                        </div>
+                      </div>
+                      <p class="text-xs text-cream/80 leading-relaxed mb-3">当店の看板である黒毛和牛の熟成サーロインステーキをメインに、前菜からデザートまで厳選肉の魅力を堪能できる一番人気コース。</p>
+                      <ul class="text-[11px] text-gold-soft/80 flex flex-wrap gap-x-4 gap-y-1">
+                        <li>・アミューズブーシュ</li>
+                        <li>・極上赤身のタルタル</li>
+                        <li>・熟成牛ステーキ150g</li>
+                        <li>・特製デザート</li>
+                      </ul>
+                    </div>
+                  </label>
+
+                  <!-- Course 2 -->
+                  <label class="selectable-card block cursor-pointer">
+                    <input type="radio" name="course" value="pairing" class="hidden" onchange="updateCourse('pairing', 'シェフ特選ワインペアリングフルコース', 18500)">
+                    <div class="p-4 sm:p-5 border border-gold/20 rounded bg-wine/30 hover:border-gold/50 transition-all">
+                      <div class="flex justify-between items-start mb-2">
+                        <div>
+                          <span class="text-xs font-latin text-gold tracking-widest uppercase">Special Pairing</span>
+                          <h3 class="font-display text-base sm:text-lg text-cream font-medium">シェフ特選ワインペアリングフルコース</h3>
+                        </div>
+                        <div class="text-right">
+                          <span class="font-latin text-xl text-gold font-medium">¥18,500</span>
+                          <span class="text-[10px] text-cream/60 block">/ 1名様 (税込)</span>
+                        </div>
+                      </div>
+                      <p class="text-xs text-cream/80 leading-relaxed mb-3">ソムリエが料理一皿ごとに最適なプレミアムワイン（グラス5杯）を合わせる至高のマリアージュ。特別な記念日に最適です。</p>
+                      <ul class="text-[11px] text-gold-soft/80 flex flex-wrap gap-x-4 gap-y-1">
+                        <li>・希少部位のグリル3種比較</li>
+                        <li>・牛ほほ肉の赤ワイン煮込み</li>
+                        <li>・ソムリエ厳選ワイン5種</li>
+                      </ul>
+                    </div>
+                  </label>
+
+                  <!-- Course 3 -->
+                  <label class="selectable-card block cursor-pointer">
+                    <input type="radio" name="course" value="alacarte" class="hidden" onchange="updateCourse('alacarte', 'お席のみのご予約（アラカルト）', 0)">
+                    <div class="p-4 sm:p-5 border border-gold/20 rounded bg-wine/30 hover:border-gold/50 transition-all">
+                      <div class="flex justify-between items-start mb-1">
+                        <h3 class="font-display text-base text-cream font-medium">お席のみのご予約（アラカルト）</h3>
+                        <div class="text-right">
+                          <span class="font-latin text-base text-gold">当日ご注文</span>
+                        </div>
+                      </div>
+                      <p class="text-xs text-cream/70">当日お好みの部位やワインを自由にメニューからお選びいただけます。</p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Seat Selection -->
+              <div>
+                <label class="block text-xs font-display tracking-widest text-gold mb-3">お席タイプ <span class="text-rouge">*</span></label>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <!-- Seat 1 -->
+                  <label class="selectable-card block cursor-pointer">
+                    <input type="radio" name="seating" value="table" checked class="hidden" onchange="updateSeat('テーブル席', 0)">
+                    <div class="p-4 border border-gold/20 rounded bg-wine/30 hover:border-gold/50 transition-all h-full">
+                      <h4 class="font-display text-sm text-cream font-medium mb-1">メインダイニング (テーブル)</h4>
+                      <p class="text-[11px] text-cream/70">ゆったりとお食事をお楽しみいただける落ち着いた開放的エリア。</p>
+                    </div>
+                  </label>
+                  <!-- Seat 2 -->
+                  <label class="selectable-card block cursor-pointer">
+                    <input type="radio" name="seating" value="counter" class="hidden" onchange="updateSeat('シェフズカウンター', 0)">
+                    <div class="p-4 border border-gold/20 rounded bg-wine/30 hover:border-gold/50 transition-all h-full">
+                      <h4 class="font-display text-sm text-cream font-medium mb-1">シェフズカウンター席</h4>
+                      <p class="text-[11px] text-cream/70">焼き上げる音と香ばしい香りを臨場感たっぷりにお楽しみいただけます。</p>
+                    </div>
+                  </label>
+                  <!-- Seat 3 -->
+                  <label class="selectable-card block cursor-pointer">
+                    <input type="radio" name="seating" value="private" class="hidden" onchange="updateSeat('完全個室 (チャージ+¥3,000)', 3000)">
+                    <div class="p-4 border border-gold/20 rounded bg-wine/30 hover:border-gold/50 transition-all h-full">
+                      <div class="flex justify-between items-baseline">
+                        <h4 class="font-display text-sm text-cream font-medium mb-1">プライベート個室</h4>
+                        <span class="text-[10px] text-gold">+¥3,000</span>
+                      </div>
+                      <p class="text-[11px] text-cream/70">接待や特別な記念日に適した、シックで静寂な完全プライベート空間。</p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2 Navigation Buttons -->
+            <div class="mt-8 pt-6 border-t border-gold/20 flex justify-between">
+              <button type="button" onclick="goToStep(1)" class="border border-gold/30 hover:bg-gold/10 text-gold-soft font-display text-sm py-3 px-6 rounded transition-all">
+                ← 戻る
+              </button>
+              <button type="button" onclick="goToStep(3)" class="bg-gold hover:bg-gold-soft text-wine-deep font-display font-semibold text-sm py-3 px-8 rounded transition-all duration-300 flex items-center gap-2">
+                <span>お客様情報の入力へ進む</span>
+                <span class="font-latin">→</span>
+              </button>
+            </div>
+          </div>
+
+
+          <!-- ================= STEP 3: CUSTOMER DETAILS & OPTIONS ================= -->
+          <div id="step-3" class="glass-panel p-6 sm:p-8 rounded-lg shadow-2xl hidden">
+            <h2 class="font-display text-xl text-gold-soft mb-6 flex items-center gap-3 border-b border-gold/20 pb-3">
+              <span class="font-latin text-2xl text-gold">03.</span> お客様情報・ご要望のご入力
+            </h2>
+
+            <div class="space-y-6">
+              <!-- Name Input -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-display tracking-widest text-gold mb-1">お名前 (漢字) <span class="text-rouge">*</span></label>
+                  <input type="text" id="custName" placeholder="例: 薔薇 太郎" required class="w-full bg-wine-deep/90 border border-gold/30 rounded p-3 text-cream text-sm focus:outline-none focus:border-gold transition-colors">
+                </div>
+                <div>
+                  <label class="block text-xs font-display tracking-widest text-gold mb-1">フリガナ <span class="text-rouge">*</span></label>
+                  <input type="text" id="custKana" placeholder="例: バラ タロウ" required class="w-full bg-wine-deep/90 border border-gold/30 rounded p-3 text-cream text-sm focus:outline-none focus:border-gold transition-colors">
+                </div>
+              </div>
+
+              <!-- Contact Input -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-display tracking-widest text-gold mb-1">電話番号 <span class="text-rouge">*</span></label>
+                  <input type="tel" id="custPhone" placeholder="例: 090-1234-5678" required class="w-full bg-wine-deep/90 border border-gold/30 rounded p-3 text-cream text-sm focus:outline-none focus:border-gold transition-colors">
+                </div>
+                <div>
+                  <label class="block text-xs font-display tracking-widest text-gold mb-1">メールアドレス <span class="text-rouge">*</span></label>
+                  <input type="email" id="custEmail" placeholder="例: customer@example.com" required class="w-full bg-wine-deep/90 border border-gold/30 rounded p-3 text-cream text-sm focus:outline-none focus:border-gold transition-colors">
+                </div>
+              </div>
+
+              <!-- Options & Special Requests -->
+              <div class="space-y-4 pt-2">
+                <label class="block text-xs font-display tracking-widest text-gold">目的・特別なオプション</label>
+                
+                <!-- Anniversary Option -->
+                <label class="flex items-start gap-3 cursor-pointer bg-wine/30 p-3 border border-gold/20 rounded hover:border-gold/40">
+                  <input type="checkbox" id="optAnniversary" class="mt-1 accent-gold w-4 h-4" onchange="toggleAnniversaryMessage(this.checked)">
+                  <div>
+                    <span class="text-sm font-display text-cream">記念日・お誕生日のデザートプレート (+¥1,500)</span>
+                    <p class="text-xs text-cream/60">メッセージ付きデザートプレートをご用意いたします。</p>
+                  </div>
+                </label>
+
+                <!-- Message Textarea (Hidden by default) -->
+                <div id="anniversaryMessageContainer" class="hidden pl-7">
+                  <input type="text" id="custMessagePlate" placeholder="プレートに添えるメッセージ (例: Happy Birthday Taro!)" class="w-full bg-wine-deep/90 border border-gold/30 rounded p-2.5 text-cream text-xs focus:outline-none focus:border-gold">
+                </div>
+
+                <!-- Allergies -->
+                <div>
+                  <label class="block text-xs text-cream/80 mb-1">アレルギー・お苦手な食材</label>
+                  <input type="text" id="custAllergies" placeholder="例: ナッツ類アレルギー1名、豚肉不可など" class="w-full bg-wine-deep/90 border border-gold/30 rounded p-3 text-cream text-xs focus:outline-none focus:border-gold">
+                </div>
+
+                <!-- Free Requests -->
+                <div>
+                  <label class="block text-xs text-cream/80 mb-1">その他ご要望</label>
+                  <textarea id="custNotes" rows="2" placeholder="ご質問やご相談がございましたらご記入ください。" class="w-full bg-wine-deep/90 border border-gold/30 rounded p-3 text-cream text-xs focus:outline-none focus:border-gold"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3 Navigation Buttons -->
+            <div class="mt-8 pt-6 border-t border-gold/20 flex justify-between">
+              <button type="button" onclick="goToStep(2)" class="border border-gold/30 hover:bg-gold/10 text-gold-soft font-display text-sm py-3 px-6 rounded transition-all">
+                ← 戻る
+              </button>
+              <button type="button" onclick="validateAndGoToStep4()" class="bg-gold hover:bg-gold-soft text-wine-deep font-display font-semibold text-sm py-3 px-8 rounded transition-all duration-300 flex items-center gap-2">
+                <span>予約内容の最終確認へ</span>
+                <span class="font-latin">→</span>
+              </button>
+            </div>
+          </div>
+
+
+          <!-- ================= STEP 4: CONFIRMATION ================= -->
+          <div id="step-4" class="glass-panel p-6 sm:p-8 rounded-lg shadow-2xl hidden">
+            <h2 class="font-display text-xl text-gold-soft mb-6 flex items-center gap-3 border-b border-gold/20 pb-3">
+              <span class="font-latin text-2xl text-gold">04.</span> ご予約内容の最終確認
+            </h2>
+
+            <p class="text-xs text-cream/80 mb-6">
+              ご入力内容をご確認の上、「予約を確定する」ボタンを押してください。
+            </p>
+
+            <div class="bg-wine-deep/80 border border-gold/30 rounded p-5 space-y-4 mb-6 font-display text-xs sm:text-sm">
+              <div class="grid grid-cols-3 border-b border-gold/10 pb-2">
+                <span class="text-gold">ご来店日時</span>
+                <span id="confirm-datetime" class="col-span-2 text-cream font-medium">--</span>
+              </div>
+              <div class="grid grid-cols-3 border-b border-gold/10 pb-2">
+                <span class="text-gold">人数</span>
+                <span id="confirm-guests" class="col-span-2 text-cream font-medium">--</span>
+              </div>
+              <div class="grid grid-cols-3 border-b border-gold/10 pb-2">
+                <span class="text-gold">お料理コース</span>
+                <span id="confirm-course" class="col-span-2 text-cream font-medium">--</span>
+              </div>
+              <div class="grid grid-cols-3 border-b border-gold/10 pb-2">
+                <span class="text-gold">お席タイプ</span>
+                <span id="confirm-seat" class="col-span-2 text-cream font-medium">--</span>
+              </div>
+              <div class="grid grid-cols-3 border-b border-gold/10 pb-2">
+                <span class="text-gold">お名前</span>
+                <span id="confirm-name" class="col-span-2 text-cream font-medium">--</span>
+              </div>
+              <div class="grid grid-cols-3 border-b border-gold/10 pb-2">
+                <span class="text-gold">ご連絡先</span>
+                <span id="confirm-contact" class="col-span-2 text-cream font-medium">--</span>
+              </div>
+              <div class="grid grid-cols-3 border-b border-gold/10 pb-2">
+                <span class="text-gold">アレルギー・備考</span>
+                <span id="confirm-notes" class="col-span-2 text-cream/80">なし</span>
+              </div>
+              <div class="grid grid-cols-3 pt-2 text-base">
+                <span class="text-gold font-semibold">概算合計金額</span>
+                <span id="confirm-total" class="col-span-2 text-gold font-latin text-xl font-bold">¥0</span>
+              </div>
+            </div>
+
+            <!-- Cancel policy note -->
+            <div class="bg-wine/40 border border-gold/15 p-4 rounded text-[11px] text-cream/70 leading-relaxed mb-6">
+              <p class="font-semibold text-gold-soft mb-1">【キャンセルポリシーについて】</p>
+              <p>前日までのキャンセルは無料です。当日のキャンセルにつきましては、コース料金の100%を頂戴する場合がございますのであらかじめご了承ください。</p>
+            </div>
+
+            <!-- Step 4 Navigation Buttons -->
+            <div class="mt-8 pt-6 border-t border-gold/20 flex justify-between">
+              <button type="button" onclick="goToStep(3)" class="border border-gold/30 hover:bg-gold/10 text-gold-soft font-display text-sm py-3 px-6 rounded transition-all">
+                ← 情報を修正する
+              </button>
+              <button type="button" onclick="completeReservation()" class="bg-gradient-to-r from-gold to-gold-soft hover:from-gold-soft hover:to-gold text-wine-deep font-display font-bold text-base py-3.5 px-10 rounded transition-all duration-300 shadow-xl transform hover:scale-[1.02]">
+                ご予約を確定する
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+
+      <!-- RIGHT COLUMN: DYNAMIC REAL-TIME SUMMARY CARD (4 COLS) -->
+      <div class="lg:col-span-4">
+        <div class="glass-panel p-6 rounded-lg shadow-2xl sticky top-28 border border-gold/30">
+          <h3 class="font-display text-lg text-gold font-medium border-b border-gold/20 pb-3 mb-4 flex items-center justify-between">
+            <span>ご予約内容の概要</span>
+            <span class="text-[10px] font-latin tracking-widest text-gold-soft uppercase">Summary</span>
+          </h3>
+
+          <div class="space-y-4 font-display text-xs sm:text-sm">
+            <div class="flex justify-between items-baseline">
+              <span class="text-cream/70">ご来店日:</span>
+              <span id="summary-date" class="text-gold-soft font-medium">選択してください</span>
+            </div>
+            <div class="flex justify-between items-baseline">
+              <span class="text-cream/70">ご来店時間:</span>
+              <span id="summary-time" class="text-gold-soft font-medium">未選択</span>
+            </div>
+            <div class="flex justify-between items-baseline">
+              <span class="text-cream/70">人数:</span>
+              <span id="summary-guests" class="text-gold-soft font-medium">2名様</span>
+            </div>
+            <div class="border-t border-gold/10 pt-3">
+              <div class="text-cream/70 mb-1">選択コース:</div>
+              <div id="summary-course" class="text-cream font-medium leading-tight">熟成牛贅沢ディナーコース</div>
+              <div id="summary-course-price" class="text-right text-xs text-gold mt-0.5">¥12,800 × 2</div>
+            </div>
+            <div class="border-t border-gold/10 pt-3">
+              <div class="text-cream/70 mb-1">選択お席:</div>
+              <div id="summary-seat" class="text-cream font-medium">メインダイニング (テーブル)</div>
+            </div>
+            <div id="summary-option-row" class="border-t border-gold/10 pt-3 hidden">
+              <div class="text-cream/70 mb-1">オプション:</div>
+              <div id="summary-option-name" class="text-cream font-medium">記念日プレート</div>
+              <div id="summary-option-price" class="text-right text-xs text-gold mt-0.5">+¥1,500</div>
+            </div>
+
+            <!-- TOTAL PRICE BOX -->
+            <div class="border-t-2 border-gold/30 pt-4 mt-4 bg-wine/50 p-4 rounded border border-gold/20 text-center">
+              <span class="text-xs text-gold-soft tracking-widest uppercase block mb-1">概算お支払い合計金額 (税込)</span>
+              <span id="summary-total-price" class="font-latin text-3xl font-bold text-gold tracking-wide">¥25,600</span>
+            </div>
+          </div>
+
+          <div class="mt-6 text-[11px] text-cream/50 text-center leading-relaxed">
+            ※サービス料込み・税込表示です。<br>
+            ※お支払いは当日店舗にて承ります。
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+
+  <!-- ================= COMPLETION MODAL ================= -->
+  <div id="completionModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-500">
+    <div class="modal-box glass-panel bg-wine-deep border-2 border-gold/50 rounded-xl max-w-xl w-full p-6 sm:p-10 shadow-2xl relative text-center transform scale-95 transition-transform duration-500">
+      
+      <!-- Success Icon -->
+      <div class="w-16 h-16 sm:w-20 sm:h-20 bg-gold/20 border-2 border-gold rounded-full flex items-center justify-center mx-auto mb-6 no-print">
+        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+      </div>
+
+      <p class="font-latin text-xs tracking-[0.3em] uppercase text-gold mb-1">Reservation Completed</p>
+      <h2 class="font-display text-2xl sm:text-3xl text-cream font-medium mb-3">ご予約が完了いたしました</h2>
+      <p class="text-xs sm:text-sm text-cream/80 leading-relaxed mb-6">
+        ご予約ありがとうございます。ご登録いただいたメールアドレス宛に確認メールを送信いたしました。
+      </p>
+
+      <!-- Reservation Card Detail -->
+      <div class="bg-wine/60 border border-gold/30 rounded-lg p-5 text-left text-xs sm:text-sm space-y-2.5 mb-6">
+        <div class="flex justify-between border-b border-gold/15 pb-2">
+          <span class="text-gold">予約番号</span>
+          <span id="resNo" class="font-latin text-gold font-bold">LR-882940</span>
+        </div>
+        <div class="flex justify-between border-b border-gold/15 pb-2">
+          <span class="text-gold">お名前</span>
+          <span id="resName" class="text-cream font-medium">--</span>
+        </div>
+        <div class="flex justify-between border-b border-gold/15 pb-2">
+          <span class="text-gold">ご来店日時</span>
+          <span id="resDate" class="text-cream font-medium">--</span>
+        </div>
+        <div class="flex justify-between border-b border-gold/15 pb-2">
+          <span class="text-gold">コース・人数</span>
+          <span id="resCourse" class="text-cream font-medium">--</span>
+        </div>
+        <div class="flex justify-between pt-1">
+          <span class="text-gold font-semibold">合計金額</span>
+          <span id="resTotal" class="font-latin text-gold font-bold text-base">--</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row gap-3 justify-center no-print">
+        <button onclick="window.print()" class="border border-gold text-gold hover:bg-gold/10 font-display text-xs sm:text-sm py-2.5 px-6 rounded transition-colors flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+          <span>予約控えを印刷・保存</span>
+        </button>
+        <a href="index.html" class="bg-gold hover:bg-gold-soft text-wine-deep font-display font-semibold text-xs sm:text-sm py-2.5 px-6 rounded transition-colors flex items-center justify-center">
+          トップページへ戻る
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-wine-deep border-t border-gold/20 py-8 no-print">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <div class="font-latin text-lg text-gold-soft tracking-widest mb-2">LA TABLE ROUGE</div>
+      <p class="text-xs text-cream/50 font-latin">© LA TABLE ROUGE All Rights Reserved.</p>
+    </div>
+  </footer>
+
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    // State management
+    const state = {
+      step: 1,
+      guests: 2,
+      date: '',
+      time: '',
+      mealType: 'dinner', // 'lunch' or 'dinner'
+      courseId: 'aged_beef',
+      courseName: '熟成牛贅沢ディナーコース',
+      coursePrice: 12800,
+      seatName: 'メインダイニング (テーブル)',
+      seatPrice: 0,
+      anniversary: false,
+      anniversaryPrice: 1500,
+      customer: {
+        name: '',
+        kana: '',
+        phone: '',
+        email: '',
+        messagePlate: '',
+        allergies: '',
+        notes: ''
+      }
+    };
+
+    // Initialize Page
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set default date to tomorrow
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const yyyy = tomorrow.getFullYear();
+      const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+      const dd = String(tomorrow.getDate()).padStart(2, '0');
+      const dateStr = `${yyyy}-${mm}-${dd}`;
+      
+      const dateInput = document.getElementById('dateInput');
+      dateInput.value = dateStr;
+      dateInput.min = dateStr; // Prevent past dates
+      
+      state.date = dateStr;
+      renderTimeSlots();
+      updateSummary();
+    });
+
+    // Date Change
+    function handleDateChange(val) {
+      state.date = val;
+      state.time = ''; // Reset selected time
+      renderTimeSlots();
+      updateSummary();
+    }
+
+    // Switch Lunch/Dinner Tab
+    function switchMealType(type) {
+      state.mealType = type;
+      const lunchBtn = document.getElementById('tab-lunch');
+      const dinnerBtn = document.getElementById('tab-dinner');
+
+      if(type === 'lunch') {
+        lunchBtn.className = 'text-xs px-3 py-1 rounded border border-gold bg-gold text-wine-deep font-semibold';
+        dinnerBtn.className = 'text-xs px-3 py-1 rounded border border-gold/30 text-gold-soft hover:border-gold';
+      } else {
+        dinnerBtn.className = 'text-xs px-3 py-1 rounded border border-gold bg-gold text-wine-deep font-semibold';
+        lunchBtn.className = 'text-xs px-3 py-1 rounded border border-gold/30 text-gold-soft hover:border-gold';
+      }
+      renderTimeSlots();
+    }
+
+    // Render Time Slots with Mock Availability Status
+    function renderTimeSlots() {
+      const container = document.getElementById('timeSlotsContainer');
+      container.innerHTML = '';
+
+      const lunchSlots = ['11:30', '12:00', '12:30', '13:00', '13:30'];
+      const dinnerSlots = ['17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'];
+      const slots = state.mealType === 'lunch' ? lunchSlots : dinnerSlots;
+
+      slots.forEach((t, idx) => {
+        // Mock seat status generation based on time/index
+        let status = '○';
+        let colorClass = 'text-emerald-400';
+        let disabled = false;
+
+        if (idx === 1) { status = '△'; colorClass = 'text-amber-400'; }
+        if (idx === 3 && state.mealType === 'dinner') { status = '×'; colorClass = 'text-rose-400'; disabled = true; }
+
+        const slotHtml = `
+          <label class="time-slot-btn cursor-pointer">
+            <input type="radio" name="timeSlot" value="${t}" ${disabled ? 'disabled' : ''} ${state.time === t ? 'checked' : ''} class="hidden" onchange="selectTime('${t}')">
+            <span class="flex items-center justify-between px-3 py-2.5 border border-gold/20 rounded bg-wine/30 hover:border-gold/50 text-xs text-cream font-display transition-all">
+              <span>${t}</span>
+              <span class="${colorClass} font-bold text-[11px]">${status}</span>
+            </span>
+          </label>
+        `;
+        container.insertAdjacentHTML('beforeend', slotHtml);
+      });
+    }
+
+    function selectTime(t) {
+      state.time = t;
+      updateSummary();
+    }
+
+    function updateGuests(num) {
+      state.guests = parseInt(num);
+      updateSummary();
+    }
+
+    function updateCourse(id, name, price) {
+      state.courseId = id;
+      state.courseName = name;
+      state.coursePrice = price;
+      updateSummary();
+    }
+
+    function updateSeat(name, price) {
+      state.seatName = name;
+      state.seatPrice = price;
+      updateSummary();
+    }
+
+    function toggleAnniversaryMessage(checked) {
+      state.anniversary = checked;
+      const container = document.getElementById('anniversaryMessageContainer');
+      if (checked) {
+        container.classList.remove('hidden');
+      } else {
+        container.classList.add('hidden');
+      }
+      updateSummary();
+    }
+
+    // Dynamic Price and Summary Calculation
+    function updateSummary() {
+      // Date formatting (YYYY-MM-DD -> YYYY年MM月DD日)
+      if (state.date) {
+        const parts = state.date.split('-');
+        document.getElementById('summary-date').textContent = `${parts[0]}年${parseInt(parts[1])}月${parseInt(parts[2])}日`;
+      }
+
+      document.getElementById('summary-time').textContent = state.time ? `${state.time}〜` : '未選択';
+      document.getElementById('summary-guests').textContent = `${state.guests}名様`;
+      document.getElementById('summary-course').textContent = state.courseName;
+      
+      if (state.coursePrice > 0) {
+        document.getElementById('summary-course-price').textContent = `¥${state.coursePrice.toLocaleString()} × ${state.guests}`;
+      } else {
+        document.getElementById('summary-course-price').textContent = '当日注文';
+      }
+
+      document.getElementById('summary-seat').textContent = state.seatName;
+
+      // Option row
+      const optRow = document.getElementById('summary-option-row');
+      if (state.anniversary) {
+        optRow.classList.remove('hidden');
+      } else {
+        optRow.classList.add('hidden');
+      }
+
+      // Calculate Total
+      let total = (state.coursePrice * state.guests) + state.seatPrice;
+      if (state.anniversary) total += state.anniversaryPrice;
+
+      document.getElementById('summary-total-price').textContent = `¥${total.toLocaleString()}`;
+    }
+
+    // Step Navigation
+    function goToStep(stepNum) {
+      // Validation for Step 1
+      if (stepNum > 1 && !state.time) {
+        alert('ご来店時間を選択してください。');
+        return;
+      }
+
+      state.step = stepNum;
+
+      // Hide all steps
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById(`step-${i}`).classList.add('hidden');
+        
+        // Update Step Badges
+        const badge = document.getElementById(`step-badge-${i}`);
+        if (i === stepNum) {
+          badge.className = 'step-badge active w-9 h-9 sm:w-11 sm:h-11 rounded-full border flex items-center justify-center font-latin font-medium text-sm sm:text-base mb-2';
+        } else if (i < stepNum) {
+          badge.className = 'step-badge completed w-9 h-9 sm:w-11 sm:h-11 rounded-full border flex items-center justify-center font-latin font-medium text-sm sm:text-base mb-2';
+        } else {
+          badge.className = 'step-badge w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-gold/20 bg-wine/60 text-cream/50 flex items-center justify-center font-latin font-medium text-sm sm:text-base mb-2';
+        }
+      }
+
+      // Show current step
+      document.getElementById(`step-${stepNum}`).classList.remove('hidden');
+      window.scrollTo({ top: 200, behavior: 'smooth' });
+    }
+
+    // Validate Step 3 Inputs before going to Step 4
+    function validateAndGoToStep4() {
+      const name = document.getElementById('custName').value.trim();
+      const kana = document.getElementById('custKana').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const email = document.getElementById('custEmail').value.trim();
+
+      if (!name || !kana || !phone || !email) {
+        alert('お名前、フリガナ、電話番号、メールアドレスをすべてご記入ください。');
+        return;
+      }
+
+      state.customer.name = name;
+      state.customer.kana = kana;
+      state.customer.phone = phone;
+      state.customer.email = email;
+      state.customer.messagePlate = document.getElementById('custMessagePlate').value.trim();
+      state.customer.allergies = document.getElementById('custAllergies').value.trim();
+      state.customer.notes = document.getElementById('custNotes').value.trim();
+
+      // Populate Step 4 Confirmation
+      const dateParts = state.date.split('-');
+      document.getElementById('confirm-datetime').textContent = `${dateParts[0]}年${parseInt(dateParts[1])}月${parseInt(dateParts[2])}日  ${state.time}〜`;
+      document.getElementById('confirm-guests').textContent = `${state.guests} 名様`;
+      document.getElementById('confirm-course').textContent = state.courseName;
+      document.getElementById('confirm-seat').textContent = state.seatName;
+      document.getElementById('confirm-name').textContent = `${name} 様 (${kana})`;
+      document.getElementById('confirm-contact').textContent = `${phone} / ${email}`;
+
+      let notesText = state.customer.allergies ? `アレルギー: ${state.customer.allergies} ` : '';
+      if (state.customer.messagePlate) notesText += `[プレート文字: ${state.customer.messagePlate}] `;
+      if (state.customer.notes) notesText += `(備考: ${state.customer.notes})`;
+      document.getElementById('confirm-notes').textContent = notesText || '特になし';
+
+      let total = (state.coursePrice * state.guests) + state.seatPrice;
+      if (state.anniversary) total += state.anniversaryPrice;
+      document.getElementById('confirm-total').textContent = `¥${total.toLocaleString()}`;
+
+      goToStep(4);
+    }
+
+    // Complete Reservation and Show Animated Modal
+    function completeReservation() {
+      // Generate random reservation code
+      const randomCode = 'LR-' + Math.floor(100000 + Math.random() * 900000);
+      document.getElementById('resNo').textContent = randomCode;
+      document.getElementById('resName').textContent = `${state.customer.name} 様`;
+      
+      const dateParts = state.date.split('-');
+      document.getElementById('resDate').textContent = `${dateParts[0]}年${dateParts[1]}月${dateParts[2]}日 ${state.time}〜`;
+      document.getElementById('resCourse').textContent = `${state.courseName} (${state.guests}名様)`;
+
+      let total = (state.coursePrice * state.guests) + state.seatPrice;
+      if (state.anniversary) total += state.anniversaryPrice;
+      document.getElementById('resTotal').textContent = `¥${total.toLocaleString()}`;
+
+      // Show Modal
+      const modal = document.getElementById('completionModal');
+      const modalBox = modal.querySelector('.modal-box');
+      
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        modalBox.classList.remove('scale-95');
+        modalBox.classList.add('scale-100');
+      }, 50);
+    }
+  </script>
+</body>
+</html>
